@@ -2,7 +2,7 @@
 name = "image-lyrics"
 version = "0.1.0"
 description = "An image says more than a thousand words! Write your own lyrics from images :)"
-authors = ["Paula Oseroff <oseroffp@gmail.com>"]
+authors = ["Sol Konfederak <skonfederak@itba.edu.ar>", "Paula Oseroff <oseroffp@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 
