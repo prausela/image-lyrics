@@ -105,9 +105,9 @@ def generate_response(db, prompt, config: dict):
 
 def postprocess_response(response, n_retrieved_chunks):
     retrived_chunks = get_retrieved_chunks(response, n_retrieved_chunks)
-    answer_start = response.find("Helpful Answer: ")
+    answer_start = response.find("Helpful Answer:")
     if answer_start != -1:
-        answer = response[answer_start + len("Helpful Answer: "):].strip()
+        answer = response[answer_start + len("Helpful Answer:"):].strip()
     else:
         answer = response.strip()
 
@@ -129,14 +129,14 @@ def get_retrieved_chunks(response, retriever_k):
     chosen_chunks = response.split('\n\n')
     return chosen_chunks[1:retriever_k]
 
-def predict(inputs: list[str], db, config: dict) -> tuple[str, list[str],str]:
+def predict(inputs: list[str], db, config: dict) -> tuple[str, list[str], str, str]:
     caps = ""
     for user_input in inputs:
         cap = generate_caption(user_input)
-        print(cap)
-        caps += query_rewriting(cap)
+        caps += query_rewriting(cap) + " "
 
+    caps = caps[:-1]
     prompt = f"Write a song lyrics about \"{caps}\" having intro, verse 1, chorus 1, verse 2, chorus 2, bridge, chorus 3, outro. Ignore the words intro, verse, chorus and outro."
     response = generate_response(db, prompt, config)
     answer, retrieved_chunks = postprocess_response(response, config["retriever"]["k"])
-    return answer, retrieved_chunks, prompt
+    return answer, retrieved_chunks, prompt, caps
