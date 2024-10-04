@@ -103,8 +103,10 @@ def generate_response(db, prompt, config: dict):
     response = chain.run(prompt)
     return response
 
-def postprocess_response(response, n_retrieved_chunks):
-    retrived_chunks = get_retrieved_chunks(response, n_retrieved_chunks)
+def postprocess_response(response, n_retrieved_chunks = None):
+    retrived_chunks = None
+    if n_retrieved_chunks is not None:
+        retrived_chunks = get_retrieved_chunks(response, n_retrieved_chunks)
     answer_start = response.find("Helpful Answer:")
     if answer_start != -1:
         answer = response[answer_start + len("Helpful Answer:"):].strip()
